@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTML Forms</title>
+</head>
+<body>
+
+<h2>Methods to send data</h2>
+<fieldset>
+<legend>Sending data (get method):</legend>
+<form action="http://localhost:5000/get" method="get">
+<p>Name: <br/><input type="text" name="name"/></p>
+<p>Age: <br/><input type="number" name="age"/></p>
+<p><input type="submit" value="Send using Get"/></p>
+</form>
+</fieldset>
+
+<br/>
+
+<fieldset>
+<legend>Sending data (post method)</legend>
+<form action="http://localhost:5000/post" method="post">
+<p>Name: <br/><input type="text" name="name"/></p>
+<p>Age: <br/><input type="number" name="age"/></p>
+<p><input type="submit" value="Send using Post"/></p>
+</form>
+</fieldset>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>The XMLHttpRequest Object</h2>
+
+<table id="users">
+<thead><th>User</th><th>Email</th></thead>
+<tbody id="body"></tbody>
+</table>
+
+<button type="button" onclick="getData()">Get Users</button>
+
+<script>
+function getData() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange=function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var users = JSON.parse(this.responseText);
+      console.log(users);
+      var rows = "";
+      for (var i = 0; i < users.length; i++){
+        var user = users[i].usuario;
+        var email = users[i].correo;
+        var row = "<tr><td>" + user + "</td><td>" + email + "</td></tr>";
+        //alert(row);
+        rows += row;
+      }
+      document.getElementById("body").innerHTML = rows;
+    }
+  };
+  var theUrl = "http://localhost:5000/list";
+  xhttp.open("GET", theUrl, true);
+  xhttp.send();
+}
+</script>
+
+</body>
+</html>
