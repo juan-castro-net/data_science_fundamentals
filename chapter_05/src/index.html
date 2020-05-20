@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="demo">
+<h2>The XMLHttpRequest Object</h2>
+<button type="button" onclick="loadDoc()">Change Content</button>
+</div>
+
+<form>
+<p>NumTimesPrg: <input type="text" id="NumTimesPrg"/></p>
+<p>PlGlcConc: <input type="text" id="PlGlcConc"/></p>
+<p>BloodP: <input type="text" id="BloodP"/></p>
+<p>SkinThick: <input type="text" id="SkinThick"/></p>
+<p>TwoHourSerIns: <input type="text" id="TwoHourSerIns"/></p>
+<p>BMI: <input type="text" id="BMI"/></p>
+<p>DiPedFunc: <input type="text" id="DiPedFunc"/></p>
+<p>Age: <input type="text" id="Age"/></p>
+<p><input type="button" value="Diagnostic" onclick="diagnostic()"/></p>
+</form>
+
+<script>
+
+function diagnostic(){
+	var NumTimesPrg = document.getElementById("NumTimesPrg").value;
+	var PlGlcConc = document.getElementById("PlGlcConc").value;
+	var BloodP = document.getElementById("BloodP").value;
+	var SkinThick = document.getElementById("SkinThick").value;
+	var TwoHourSerIns = document.getElementById("TwoHourSerIns").value;
+	var BMI = document.getElementById("BMI").value;
+	var DiPedFunc = document.getElementById("DiPedFunc").value;
+	var Age = document.getElementById("Age").value;
+
+	var datos = {};
+	datos["NumTimesPrg"] = NumTimesPrg;
+	datos["PlGlcConc"] = PlGlcConc;
+	datos["BloodP"] = BloodP;
+	datos["SkinThick"] = SkinThick;
+	datos["TwoHourSerIns"] = TwoHourSerIns;
+	datos["BMI"] = BMI;
+	datos["DiPedFunc"] = DiPedFunc;
+	datos["Age"] = Age;
+
+	console.log(datos);
+	loadDoc(datos);
+}
+
+function loadDoc(datos) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var data = JSON.parse(this.responseText);
+      var diabetes = data['diabetes'];
+      var text = "";
+      if (diabetes == 0){
+      	text = "You don't have diabetes";
+      }
+      else{
+      	text = "You have diabetes";
+      }
+      document.getElementById("demo").innerHTML = text;
+    }
+  };
+  xhttp.open("POST", "http://localhost:5000/predict", true);
+  // Add the required HTTP header for form data POST requests
+  //xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  //var datos = {"NumTimesPrg":6, "PlGlcConc":168, "BloodP":72, "SkinThick":35, "TwoHourSerIns":0, "BMI":43.6, "DiPedFunc":0.627, "Age":65}
+  //var datos = {"NumTimesPrg":1, "PlGlcConc":85, "BloodP":66, "SkinThick":29, "TwoHourSerIns":0, "BMI":26.6, "DiPedFunc":0.351, "Age":31}
+  var data = JSON.stringify(datos);
+  xhttp.send(data);
+  //xhttp.send();
+}
+</script>
+
+</body>
+</html>
